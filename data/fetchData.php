@@ -1,13 +1,5 @@
 <?php
 
-$utilisateur ="gendront_BDApplication";
-    $mdp = "Qwert1231712!";
-    $chaineConnexion = "mysql:dbname=gendront_BD;host=127.0.0.1";
-    $maConnexionPDO = new PDO($chaineConnexion,$utilisateur,$mdp);
-    $maConnexionPDO->exec('set names utf8');
-
-
-
 function UserPass($username,$maConnexionPDO) {
 
     
@@ -50,7 +42,7 @@ function AllVisite($maConnexionPDO) {
     try {
         $pdoRequete = $maConnexionPDO->prepare("select * from Visite");
 
-        $pdoRequeteliste->execute();
+        $pdoRequete->execute();
         $listeToutesVisite = $pdoRequete->fetchAll();
         
         return $listeToutesVisite;
@@ -66,7 +58,7 @@ function AllLieux($maConnexionPDO) {
     try {
         $pdoRequete = $maConnexionPDO->prepare("select * from LieuxVisiter");
 
-        $maConnexionPDO->liste->execute();
+        $pdoRequete->execute();
         $listeLieux = $pdoRequete->fetchAll();
         
         return $listeLieux;

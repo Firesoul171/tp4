@@ -1,6 +1,7 @@
 
 <?php
 
+
 function PushLieuxVisiter($numeroCivic,$rue,$Ville,$province,$idLieux,$maConnexionPDO) {
 
     

@@ -4,9 +4,6 @@
 
 class AuthentificationLogin {
 
-
-    
-
     public static function getAuthentification($username, $password){
         $maConnexionPDO = connectionDB::ConnectionPDO();
         $fetch =new FetchData;

@@ -6,8 +6,6 @@ public function UserPass($username,$maConnexionPDO) {
 
     
     try {
-        error_log("fetchdata :    ");
-        error_log($username);
         $pdoRequete = $maConnexionPDO->prepare("select * from Users where username=:username");
 
         $pdoRequete->bindParam(":username",$username,PDO::PARAM_STR);

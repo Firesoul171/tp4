@@ -1,0 +1,86 @@
+.griser{
+    width: 100%;
+    opacity: 0.5;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .questionActiver{
+    opacity: 1;
+    display: inline-block;
+    pointer-events: auto;
+  }
+  .conteneurDeQuestion2{
+    
+    height: 200px;
+    margin-top: 40px;
+  }
+
+body{
+    font-size: 20px;
+    font-family: sans-serif;
+    color: #333;
+}
+.question{
+	font-weight: 600;
+}
+.reponces {
+  margin-bottom: 20px;
+}
+.reponces label{
+  display: block;
+}
+
+.page{
+  position: absolute;
+  left: 300px;
+  top: 300px;
+  width: 100%;
+  opacity: 0;
+  display: none;
+  z-index: 1;
+}
+
+.pageActive{
+    opacity: 1;
+    display: inline-block;
+    z-index: 2;
+  }
+
+.pasEncoreActiver{
+    opacity: 0;
+    display: none;
+}
+
+.blocQuestion{
+  margin-left: 4%;
+}
+
+.liste{
+  margin-right: 10%;
+  margin-left: 5%;
+}
+
+.column {
+  padding: 0px;
+}
+
+.columnChildL {
+  width: 40%;
+  float: left;
+  margin-left: 10%;
+  margin-right: 5%;
+
+} 
+.columnChildR {
+  width: 40%;
+  float: left;
+
+} 
+
+.infectedSelect{
+  margin-bottom: 5%;
+}
+
+.Navigation{
+  margin-left: 30%;
+}

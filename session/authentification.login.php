@@ -1,6 +1,6 @@
 <?php
-    require_once 'fetchData.php';
-    require_once 'connectionDB.php';
+    require_once '../data/fetchData.php';
+    require_once '../data/connectionDB.php';
 
 class AuthentificationLogin {
 

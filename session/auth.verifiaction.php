@@ -15,16 +15,13 @@ if (!isset($_POST['name'],$_POST['password'])){
 
     $name = filter_input(INPUT_POST,'name',FILTER_SANITIZE_SPECIAL_CHARS);
     $password = filter_input(INPUT_POST,'password',FILTER_DEFAULT);
-    error_log("auth.verification :    ");
-    error_log($name);
-    error_log($password);
 
 
     if (AuthentificationLogin::getAuthentification($name,$password)){
         error_log("Hello from the other side");
         require_once 'auth.session.succesful.php';
         setSession($name);
-        header("Location: ./secure.zone.php");
+        header("Location: ../html/secure.zone.php");
     } else {
 
         setcookie("AuthFailed", "Nom d'utilisateur ou mot de passe incorrect.", 0, "/", "gendron.techinfo420.ca", true, true);

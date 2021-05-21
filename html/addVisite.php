@@ -59,7 +59,7 @@ require_once '../session/auth.session.succesful.php';
                                                 </li>
                                                 <li>
                                                     <label for="lnumber">Nom de la province : </label><br>
-                                                    <input type="text" id="numeroCivic" name="numeroCivic">
+                                                    <input type="text" id="province" name="province">
                                                 </li>
                                             </ul>
                                         </div>
@@ -79,7 +79,7 @@ require_once '../session/auth.session.succesful.php';
                                                     </li>
                                                     <li>
                                                         <label for="ljourA">Jour : </label><br>
-                                                        <select id="JourA" name="JourA">
+                                                        <select id="jourA" name="jourA">
                                                         </select>
                                                     </li>
                                                 </ul>
@@ -122,7 +122,7 @@ require_once '../session/auth.session.succesful.php';
                                                     </li>
                                                     <li>
                                                         <label for="ljourD">Jour : </label><br>
-                                                        <select id="jourA" name="jourA">
+                                                        <select id="jourD" name="jourD">
                                                         </select>
                                                     </li>
                                                 </ul>
@@ -163,6 +163,9 @@ require_once '../session/auth.session.succesful.php';
                                                     </ul>
                                                 </div>
                                             </div>
+                                            <form id="formulaire" method="post" action="./data/pushVisite.php">
+                                            <input type='text' name ="reponceFormulaire", id="reponceFormulaire", style="display: none;">
+                                            </form>
 
                                         
 									</section>
@@ -170,7 +173,7 @@ require_once '../session/auth.session.succesful.php';
 
 		<!-- Scripts -->
 		
-			<script src="formulaire.js"></script>
+			<script src="addVisit.js"></script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>

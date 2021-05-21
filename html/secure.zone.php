@@ -53,7 +53,7 @@ require_once '../session/auth.session.succesful.php';
 
 		<!-- Scripts -->
 		
-			<script src="formulaire.js"></script>
+			<script src="secure.zone.js"></script>
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>

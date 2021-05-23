@@ -77,10 +77,11 @@ function GetAnswer()
     {
        var nomText = texts[i].getAttribute("name");
        console.log(nomText);
-        if(texts[i].value == "")
+        if(texts[i].value == "" && nomText !="reponceFormulaire") 
             return 1;
         else
         {
+            
             if(nomText == "numeroCivic")
             {
                 try
@@ -131,7 +132,9 @@ function GetAnswer()
                 }
                     
             }
-            resultat.push(array);
+            
+            if (nomText != "reponceFormulaire")
+                resultat.push(array);
         }
     }
 
@@ -178,16 +181,17 @@ function GetAnswer()
         array = [{"infected":1}];
     else
         array = [{"infected":0}];
-        resultat.push(array);
 
-    return resultat;
+    resultat.push(array);
+
+       
+    let resultatJson = JSON.stringify(resultat);
+
+    document.getElementById('reponceFormulaire').value = resultatJson;
+    document.getElementById('formulaire').submit();
 }
 
 
 
 const boutonAjouter = document.getElementById("Ajouter");
-resultat = boutonAjouter.addEventListener('click',GetAnswer);
-let resultatJson = JSON.stringify(resultat);
-alert("Merci de votre coopération");
-document.getElementById('reponceFormulaire').value = resultatJson;
-document.getElementById('formulaire').submit();
+boutonAjouter.addEventListener('click',GetAnswer);

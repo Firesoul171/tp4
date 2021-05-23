@@ -1,8 +1,8 @@
 
 <?php
+class PushData {
 
-
-function PushLieuxVisiter($numeroCivic,$rue,$Ville,$province,$idLieux,$maConnexionPDO) {
+ public function PushLieuxVisiter($numeroCivic,$rue,$Ville,$province,$idLieux,$maConnexionPDO) {
 
     
 try {
@@ -22,7 +22,7 @@ try {
 }
 
 
-function PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO) {
+public function PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO) {
 
     
     try {
@@ -41,5 +41,6 @@ function PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPD
         error_log($e->getMessage());
     }
     }
+}
 
 ?>

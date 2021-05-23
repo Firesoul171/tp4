@@ -163,7 +163,7 @@ require_once '../session/auth.session.succesful.php';
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <form id="formulaire" method="post" action="./data/pushVisite.php">
+                                            <form id="formulaire" method="post" action="../data/pushVisite.php">
                                             <input type='text' name ="reponceFormulaire", id="reponceFormulaire", style="display: none;">
                                             </form>
 

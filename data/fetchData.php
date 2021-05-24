@@ -37,10 +37,11 @@ public function LieuxVisite($username,$maConnexionPDO) {
 }
 
 
-public function AllVisite($maConnexionPDO) {
+public function VisiteAtIdLieux($maConnexionPDO,$idLieux) {
   
     try {
-        $pdoRequete = $maConnexionPDO->prepare("select * from Visite");
+        $pdoRequete = $maConnexionPDO->prepare("select * from Visite where idLieux=:idLieux");
+        $pdoRequete->bindParam(":idLieux",$idLieux,PDO::PARAM_INT);
 
         $pdoRequete->execute();
         $listeToutesVisite = $pdoRequete->fetchAll();

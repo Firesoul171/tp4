@@ -177,7 +177,7 @@ function GetAnswer()
     resultat.push(array);
 
 
-    if (infected.cheked)
+    if (infected.value == 1)
         array = [{"infected":1}];
     else
         array = [{"infected":0}];

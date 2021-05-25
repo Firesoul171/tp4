@@ -10,26 +10,35 @@ require_once '../session/auth.session.succesful.php';
             header("Location: ../session/auth.ask.php");      
         }
 
-        var_dump($username);
 ?>
 
 <?php
 require_once './fetchData.php';
 
-function CheckIfContact($idlieux, $arriver, $depart,$infected,$email)
+function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
 {
-    $dateArriver = parse_str($arriver);
-    $dateDepart = parse_str($depart);
+    $dateArriver = +$arriver;
+    $dateDepart = +$depart;
+    error_log("hello we have made it in the checkIf contact");
+    error_log($arriver);
+    error_log($depart);
+    error_log($email);
+    error_log($infected);
+    error_log($idLieux);
+    error_log("bye");
 
     if($dateArriver - $dateDepart <= -10000)
     {
+        error_log("hello we have made it pass the 1h check");
+        $maConnexionPDO = connectionDB::ConnectionPDO();
         $fetch =new FetchData;
         $allVisite = $fetch->VisiteAtIdLieux($maConnexionPDO,$idLieux);
         $Acontacter = array();
 
         // pour chaque visite 
         foreach($allVisite as $visite)
-        
+        {
+            error_log("hello we have made it to check visits");
             // si la visite a duree au moin 1h soit 10000  avec ma methode de representation de temps le - est car je fait (l'arriver - le depart)
             if ( $visite[2] - $visite[3] <= -10000)
             {
@@ -45,12 +54,14 @@ function CheckIfContact($idlieux, $arriver, $depart,$infected,$email)
                 //Si le nouvel arrivant est l'infecter et rencontre un deja la 
                 if ($tempPasserEnsemble >= 10000 and $infected == 1)
                 {
+                    error_log("hello we have made it to there is an infected contact");
                     if (!in_array($Acontacter,$visite[1]))
                         array_push($Acontacter,$visite[1]);
                 }
                 // si le nouvel arrivant n'est pas infecter et rencontre un infecter
                 if ($tempPasserEnsemble >= 10000 and $visite[4] == 1)
                 {
+                    error_log("hello we have made it to there is an infected contact with someone who isnt");
                     if (!in_array($Acontacter,$email))
                         array_push($Acontacter,$email);
                 }
@@ -58,15 +69,43 @@ function CheckIfContact($idlieux, $arriver, $depart,$infected,$email)
         }
     }
 
-    foreach($Acontacter as $email)
+    if (is_array($Acontacter) || is_object($Acontacter))
     {
-        SendEmail($email)
+        $alreadySent = array();
+        $sending = true;
+        foreach($Acontacter as $mail)
+        {
+            foreach($alreadySent as $sent)
+            {
+                if($sent == $mail)
+                    $sending = false;
+            }
+            if($sending)
+            {
+                error_log("hello we have made it to email sending");
+                SendEmail($mail);
+                array_push($alreadySent,$mail);
+            }
+            
+            $sending = true;
+        }
     }
+    error_log("hello we are done sending email");
+
     
 }
 
 function SendEmail($email)
 {
-    
+    $to = $email;
+    $subject = 'Alerte contagion possible';
+    $message = addslashes("Vous avez fréquenté un lieu pendant au moins 1 heure, en même temps qu’une personne contagieuse. Veuillez prendre les dispositions nécessaires.");
+    $headers = 'From: gendrontechinfo4@projetweb.techinfo420.ca' / "\r\n" .
+    'Reply-To: gendrontechinfo4@projetweb.techinfo420.ca' . "\r\n" .
+    'X-Mailler : PHP/' . phpversion();
+    mail($to, $subject, $message, $headers);
 }
+
+
+
 ?>

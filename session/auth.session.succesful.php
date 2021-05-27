@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 function setSession($name) {
     setSessionOn();
     $_SESSION['AuthInformation'] = $name;

@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 if (!isset($_POST['name'],$_POST['password'])){
     setcookie("AuthFailed", "Refus de traitement.", 0, "/", "gendron.techinfo420.ca", true, true);
     header("Location: ../session/auth.ask.php");

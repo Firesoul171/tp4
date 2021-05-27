@@ -1,3 +1,6 @@
+<?php
+ob_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,6 +10,7 @@
     <body>
         <form name="Authentification" action="auth.verifiaction.php" method="post">
 <?php
+
     if (isset($erreurAuth)){
         echo '<p style="background-color: yellow;">'.$erreurAuth.'</p>';
     }

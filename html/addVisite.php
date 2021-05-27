@@ -1,5 +1,5 @@
 <?php 
-
+//Verifie si on est authentifier
 require_once '../session/auth.session.succesful.php';
     
     if (getSessionExiste()){

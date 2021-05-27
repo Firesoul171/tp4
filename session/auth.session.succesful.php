@@ -1,11 +1,14 @@
 <?php
-ob_start();
+//ob_start();
 function setSession($name) {
+    //fonction qui attribut le nom d'usager a la variable de session 
     setSessionOn();
     $_SESSION['AuthInformation'] = $name;
 }
 
-function getSessionExiste(){
+function getSessionExiste()
+{ 
+    //Fonction qui verifie si l'utilisateur a entrer des informations d'authentification valide
     $sessionEstValide=false;
     
     setSessionOn();
@@ -14,11 +17,11 @@ function getSessionExiste(){
     {
         $ValidSession = true;
     } 
-
     return $ValidSession;
 }
 
 function setSessionOn() {
+    //focntion qui set le cookie d'authentifiaction avec ses parametres de securiter
     ini_set("session.cookie_lifetime", 0);
     ini_set("session.use_cookies", 1);
     ini_set("session.use_only_cookies" , 1);

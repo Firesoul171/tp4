@@ -1,20 +1,3 @@
-.griser{
-    width: 100%;
-    opacity: 0.5;
-    transition: opacity 0.5s;
-    pointer-events: none;
-  }
-  .questionActiver{
-    opacity: 1;
-    display: inline-block;
-    pointer-events: auto;
-  }
-  .conteneurDeQuestion2{
-    
-    height: 200px;
-    margin-top: 40px;
-  }
-
 body{
     font-size: 20px;
     font-family: sans-serif;
@@ -99,4 +82,8 @@ body{
 
 .marginLeftAllVisite{
   margin-left: 15%;
+}
+
+.marginLeftAllVisite2{
+  margin-left: 5%;
 }

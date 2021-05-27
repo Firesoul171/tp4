@@ -1,4 +1,5 @@
-<?php 
+<?php
+//Verifie si l'utilisateur est authentifier 
 ob_start();
 require_once '../session/auth.session.succesful.php';
     
@@ -39,8 +40,15 @@ require_once '../session/auth.session.succesful.php';
 					<div>
 						<!-- Content -->
 							<section id="content" class="main">
+										<div class="Navigation">
+											<ul class="actions">
+												<li class='marginLeftAllVisite2'><li class='marginLeftAllVisite'><button id ="Retour" href="./secure.zone.php" class="button">Acceuil</button></li></li>
+												
+											</ul>
+										</div>
 										<div>
 										<?php
+											
 											require_once '../data/fetchData.php';
 											require_once '../session/auth.session.succesful.php';
 											require_once '../data/connectionDB.php';
@@ -48,6 +56,7 @@ require_once '../session/auth.session.succesful.php';
 											if (getSessionExiste())
 												$username = $_SESSION['AuthInformation'];
 
+											//cherche la list de visite de l'utilisateur et la liste des lieux 
 											$maConnexionPDO = connectionDB::ConnectionPDO();
 
 											$fetch =new FetchData;
@@ -55,16 +64,19 @@ require_once '../session/auth.session.succesful.php';
 											$listAllLieux = $fetch->AllLieux($maConnexionPDO);
 											
 											$listLieuxVisiteID = array();
-
+											$listeIDVisite = array();
+											// creer la list des ID de lieux
 											foreach($listVisite as $lieux)
 											{
 												array_push($listLieuxVisiteID,$lieux[0]);
+												array_push($listeIDVisite,$lieux[5]);
 											}
 
-											$indexDeLieux = 0;
+											
 
 											function ArrayDate($splitInfo, $arrayInfo)
 												{
+													//fonction qui decode le formatage de temps utiliser pour un array bien definit
 													array_push($arrayInfo,$splitInfo[0].$splitInfo[1].$splitInfo[2].$splitInfo[3]);
 													array_push($arrayInfo,$splitInfo[4].$splitInfo[5]);
 													array_push($arrayInfo,$splitInfo[6].$splitInfo[7]);
@@ -73,9 +85,10 @@ require_once '../session/auth.session.succesful.php';
 													array_push($arrayInfo,$splitInfo[12].$splitInfo[13]);
 													return $arrayInfo;
 												}
-
+											
+											// ajoute dynamiquement toutes les visites dans leur propres segments a l'ecrans pour l'utilisateur
 											echo "<div>";
-
+											$indexDeLieux = 0;
 											foreach($listLieuxVisiteID as $idLieux)
 											{
 												$infoLieux = $fetch->InfoLieux($maConnexionPDO,$idLieux);
@@ -111,7 +124,6 @@ require_once '../session/auth.session.succesful.php';
 												else
 													$infectedAffichable = "Oui";
 												
-												$id = "Modifier".$infected;	
 												
 												
 												
@@ -127,8 +139,8 @@ require_once '../session/auth.session.succesful.php';
 												echo "<div class='columnChildR2'>";
 												
 												echo "<label for='Lieux'> Infecté ? :</label>";
-												echo "<label for='Lieux'> $infectedAffichable</label>";
-												echo '<button id ='.$id.' href="#" class="button">Changer votre état de santé</button>';
+												echo "<label name =".$listeIDVisite[$indexDeLieux]." for='Lieux'> $infectedAffichable</label>";
+												echo '<button id ='.$listeIDVisite[$indexDeLieux].' name ="Modifier" href="#" class="button">Changer votre état de santé</button>';
 												echo "</div>";
 												echo "</div>";
 												echo "</div>";
@@ -155,7 +167,7 @@ require_once '../session/auth.session.succesful.php';
 									
 										
 		<!-- Scripts -->
-		
+			<script src="allVisite.js"></script>									
 			<script src="assets/js/jquery.min.js"></script>
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/jquery.scrolly.min.js"></script>
@@ -163,7 +175,7 @@ require_once '../session/auth.session.succesful.php';
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-	<form id="formulaire" method="post" action="./pushQuestion.php">
+	<form id="formulaire" method="post" action="../data/modificationVisite.php">
 	<input type='text' name ="reponceFormulaire", id="reponceFormulaire", style="display: none;">
 	</form>
 	</body>

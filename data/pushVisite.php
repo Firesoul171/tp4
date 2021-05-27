@@ -1,5 +1,5 @@
 <?php
-
+//Verrification d'authentification
 require_once '../session/auth.session.succesful.php';
             
 if (getSessionExiste())
@@ -13,8 +13,7 @@ else
     header("Location: ../session/auth.ask.php");      
 }
 
-header("Location: ../html/thanks.php");
-
+echo "<script type='text/javascript'>window.location.href='../html/thanks.php'</script>";
 
 require_once './pushData.php';
 require_once './fetchData.php';
@@ -22,12 +21,13 @@ require_once './connectionDB.php';
 require_once '../app/infectionAlert.php';
 
 
-
+//Cherche la liste de tous les lieux
 $maConnexionPDO = connectionDB::ConnectionPDO();
 
 $fetch =new FetchData;
 $allPlaces = $fetch->AllLieux($maConnexionPDO);
 
+//Cherche les informations du lieux visiter et de la visites du formulaire
 
 $reponceJson = filter_input(INPUT_POST,'reponceFormulaire',FILTER_SANITIZE_SPECIAL_CHARS);
 // {numeroCivic,rue,ville,province,arriver,depart,infected}
@@ -42,6 +42,7 @@ $infected = $reponce[6][0]['infected'];
 $placeExist = false;
 $idLieuxExist = false;
 
+//Pour chaque lieux verifie si le lieux du formulaire a les meme information (il existe deja) Si il n'existe pas l'ajoute a la BD Sinon passe a l'etape suivante
 foreach($allPlaces as $place)
 {
 
@@ -71,6 +72,7 @@ if (!$placeExist)
     $push->PushLieuxVisiter($numeroCivic,$rue,$Ville,$province,$idLieux,$maConnexionPDO);
 }
 
+// Ajoute la visite a la BD
 $allVisite = $fetch->AllVisite($maConnexionPDO);
 $idVisite = count($allVisite) +1;
 
@@ -80,16 +82,9 @@ $push =new PushData;
 $arriver = $timestamp[0];
 $depart = $timestamp[1];
 $infected = $reponce[6][0]['infected'];
-
-
-error_log($idLieux);
-error_log($username);
-error_log($arriver);
-error_log($depart);
-error_log($infected);
-error_log($idVisite);
 $user = $push->PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO,$idVisite);
 
+//Verifie si il y a heu un contact avec une personne infecter et envoy des courriels au personnes concerner
 
 CheckIfContact($idLieux, $arriver, $depart,$infected,$username);
 

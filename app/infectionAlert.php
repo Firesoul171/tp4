@@ -1,5 +1,5 @@
 <?php
-
+//Verifie si utilisateur est authentifier
 require_once '../session/auth.session.succesful.php';
             
         if (getSessionExiste()){
@@ -17,12 +17,14 @@ require_once './fetchData.php';
 
 function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
 {
+    //Prend  le idlieux, arriver,depart,etatDeSante,emailDeCeluiQuiFaitLaVisite et verifie si il est rentrer en contact abev quelqun pendand 1h qui etait infecter
     $dateArriver = +$arriver;
     $dateDepart = +$depart;
 
-
+    //Verifie si il est present sur le lieu au moins 1h
     if($dateArriver - $dateDepart <= -10000)
     {
+        //Cherche toute les visite qui on heu lieux a cette endroit
         $maConnexionPDO = connectionDB::ConnectionPDO();
         $fetch =new FetchData;
         $allVisite = $fetch->VisiteAtIdLieux($maConnexionPDO,$idLieux);
@@ -31,7 +33,7 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
         // pour chaque visite 
         foreach($allVisite as $visite)
         {
-            // format de donner AAAAMMJJHHmmSS    A = annee M = mois J = jour  m = minutes S= seconde
+            // format de donner de arriver et depart AAAAMMJJHHmmSS    A = annee M = mois J = jour  m = minutes S= seconde
             // si la visite a duree au moin 1h soit 10000  avec ma methode de representation de temps le - est car je fait (l'arriver - le depart)
             if ( $visite[2] - $visite[3] <= -10000)
             {
@@ -63,6 +65,7 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
         }
     }
 
+    //envoy les courriels au usager concerner, mais 1 seul fois (pour eviter de spam)
     if (is_array($Acontacter) || is_object($Acontacter))
     {
         $alreadySent = array();
@@ -89,6 +92,7 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
 
 function SendEmail($email)
 {
+    //Envoy un courriel d'avertissement a l'udager $email
     $to = $email;
     $subject = 'Alerte contagion possible';
     $message = addslashes("Vous avez fréquenté un lieu pendant au moins 1 heure, en même temps qu’une personne contagieuse. Veuillez prendre les dispositions nécessaires.");

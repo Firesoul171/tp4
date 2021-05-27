@@ -1,8 +1,10 @@
 <?php
+ 
     class connectionDB {
+        // Class qui gere la connection a la BD
 
        public static function ConnectionPDO() {
-
+        //retourne l'onject de PDO de connection a la BD
     
         $utilisateur ="gendront_BDApplication";
         $mdp = "Qwert1231712!";

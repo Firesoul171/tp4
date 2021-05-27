@@ -1,3 +1,5 @@
+
+//Ajoute les listner des boutons de la page
 const boutonRetour = document.getElementById("Retour");
 const boutonEffacer = document.getElementById("Effacer");
 
@@ -18,7 +20,7 @@ boutonEffacer.addEventListener('click',BoutonEffacer);
 
 
 
-
+//Gere les options des selects de la pages
 const anneeA = document.getElementById("anneeA");
 const anneeD = document.getElementById("anneeD");
 const moisA = document.getElementById("moisA");
@@ -65,18 +67,23 @@ AddOptions(secondD,secondOptions);
 
 
 
-
+//Gere le select id = infected
 var selects = document.getElementsByTagName('select');
 var texts = document.querySelectorAll('input[type="text"]')
 var infected = document.getElementById('infected')
 
 function GetAnswer()
 {
+    //Fonction qui recupere les information fu formulaire et l'envoy ay script php sous forme JSON
     resultat = [];
+    catchError = false;
+    
     for(var i=0;i<texts.length;i++)
     {
        var nomText = texts[i].getAttribute("name");
        console.log(nomText);
+
+       //Sassure que les parametre ne sont pas vide et avec des valeurs possibles
         if(texts[i].value == "" && nomText !="reponceFormulaire") 
             return 1;
         else
@@ -141,7 +148,7 @@ function GetAnswer()
     arriver = [];
     depart = [];
     
-
+    //cherche la valeurs  presentes des selects pour l'arriver et le depart et les stock respectivement dans leur array
     for(var i=0;i<selects.length;i++)
     {
         
@@ -176,7 +183,7 @@ function GetAnswer()
     array = [{"depart":Depart}];
     resultat.push(array);
 
-
+    //Cherche et stock la valeur de infected
     if (infected.value == 1)
         array = [{"infected":1}];
     else
@@ -184,7 +191,7 @@ function GetAnswer()
 
     resultat.push(array);
 
-       
+    //Transforme le tout en json et envoy le tout
     let resultatJson = JSON.stringify(resultat);
 
     document.getElementById('reponceFormulaire').value = resultatJson;
@@ -192,6 +199,6 @@ function GetAnswer()
 }
 
 
-
+//Listner du vouton ajouter
 const boutonAjouter = document.getElementById("Ajouter");
 boutonAjouter.addEventListener('click',GetAnswer);

@@ -84,3 +84,19 @@ body{
 .Navigation{
   margin-left: 30%;
 }
+.columnChildL2 {
+  width: 40%;
+  float:left;
+
+
+} 
+.columnChildR2 {
+  margin-top: -17%;
+  width: 40%;
+  float: right;
+
+}
+
+.marginLeftAllVisite{
+  margin-left: 15%;
+}

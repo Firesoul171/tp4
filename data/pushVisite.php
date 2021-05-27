@@ -13,6 +13,9 @@ else
     header("Location: ../session/auth.ask.php");      
 }
 
+header("Location: ../html/thanks.php");
+
+
 require_once './pushData.php';
 require_once './fetchData.php';
 require_once './connectionDB.php';
@@ -35,9 +38,6 @@ $lieuxVisite = array($reponce[0][0]["numeroCivic"],$reponce[1][0]["rue"], $repon
 $timestamp = array($reponce[4][0]['arrive'],$reponce[5][0]['depart']);
 //infected
 $infected = $reponce[6][0]['infected'];
-error_log("here: ");
-error_log($reponceJson);
-error_log($infected);
 
 $placeExist = false;
 $idLieuxExist = false;
@@ -58,8 +58,7 @@ foreach($allPlaces as $place)
 
 if (!$placeExist)
 {
-    error_log("la place N'existe pas dans la BD");
-
+    
     $maConnexionPDO = connectionDB::ConnectionPDO();
     $push =new PushData;
     if(!$idLieuxExist)
@@ -70,20 +69,29 @@ if (!$placeExist)
     $province = str_replace("&#39;","'",$lieuxVisite[3]);
 
     $push->PushLieuxVisiter($numeroCivic,$rue,$Ville,$province,$idLieux,$maConnexionPDO);
-    error_log("la place devrais avoir ete ajouter dans la BD");
 }
+
+$allVisite = $fetch->AllVisite($maConnexionPDO);
+$idVisite = count($allVisite) +1;
+
 
 $maConnexionPDO = connectionDB::ConnectionPDO();
 $push =new PushData;
 $arriver = $timestamp[0];
 $depart = $timestamp[1];
+$infected = $reponce[6][0]['infected'];
 
-$user = $push->PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO);
-error_log("La visite devrais avoir ete pousser ver la BD");
+
+error_log($idLieux);
+error_log($username);
+error_log($arriver);
+error_log($depart);
+error_log($infected);
+error_log($idVisite);
+$user = $push->PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO,$idVisite);
 
 
 CheckIfContact($idLieux, $arriver, $depart,$infected,$username);
-error_log("la verification de si il y heu un contact devrais etre fait");
 
 ?>
 

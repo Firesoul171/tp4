@@ -3,7 +3,7 @@
 require_once '../session/auth.session.succesful.php';
     
     if (getSessionExiste()){
-        $nom = $_SESSION['AuthInformation'];
+        $username = $_SESSION['AuthInformation'];
 
     } else {
         setcookie("AuthError", "Vous devez vous authentifier", 0, "/", "gendron.techinfo420.ca", true, true);

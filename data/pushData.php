@@ -22,17 +22,18 @@ try {
 }
 
 
-public function PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO) {
+public function PushVisite($idLieux,$username,$arriver,$depart,$infected,$maConnexionPDO,$idVisite) {
 
     
     try {
-        $pdoRequete = $maConnexionPDO->prepare("INSERT INTO Visite VALUES(:idLieux,:username,:arriver,:depart,:infected)");
+        $pdoRequete = $maConnexionPDO->prepare("INSERT INTO Visite VALUES(:idLieux,:username,:arriver,:depart,:infected,:idVisite)");
         
         $pdoRequete->bindParam(":idLieux",$idLieux,PDO::PARAM_INT);
         $pdoRequete->bindParam(":username",$username,PDO::PARAM_STR);
-        $pdoRequete->bindParam(":arriver",$arriver,PDO::PARAM_INT);
-        $pdoRequete->bindParam(":depart",$depart,PDO::PARAM_INT);
+        $pdoRequete->bindParam(":arriver",$arriver,PDO::PARAM_STR);
+        $pdoRequete->bindParam(":depart",$depart,PDO::PARAM_STR);
         $pdoRequete->bindParam(":infected",$infected,PDO::PARAM_INT);
+        $pdoRequete->bindParam(":idVisite",$idVisite,PDO::PARAM_INT);
 
     
         $pdoRequete->execute();

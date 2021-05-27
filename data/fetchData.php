@@ -1,73 +1,110 @@
 <?php
 
-class FetchData {
+class FetchData 
+{
 
-public function UserPass($username,$maConnexionPDO) {
+    public function UserPass($username,$maConnexionPDO) {
 
+        
+        try {
+            $pdoRequete = $maConnexionPDO->prepare("select * from Users where username=:username");
+
+            $pdoRequete->bindParam(":username",$username,PDO::PARAM_STR);
+
+            $pdoRequete->execute();
+            $user = $pdoRequete->fetchAll();
+            return $user[0];
+
+        } catch (Exception $e){
+            error_log($e->getMessage());
+        }
+    }
+
+    public function LieuxVisite($username,$maConnexionPDO) {
     
-    try {
-        $pdoRequete = $maConnexionPDO->prepare("select * from Users where username=:username");
+        try {
+            $pdoRequete = $maConnexionPDO->prepare("select * from Visite where username=:username");
 
-        $pdoRequete->bindParam(":username",$username,PDO::PARAM_STR);
+            $pdoRequete->bindParam(":username",$username,PDO::PARAM_STR);
 
-        $pdoRequete->execute();
-        $user = $pdoRequete->fetchAll();
-        return $user[0];
+            $pdoRequete->execute();
+            $listeLieuxVisite = $pdoRequete->fetchAll();
+            
+            return $listeLieuxVisite;
 
-    } catch (Exception $e){
-        error_log($e->getMessage());
+        } catch (Exception $e){
+            error_log($e->getMessage());
+        }
     }
-}
 
-public function LieuxVisite($username,$maConnexionPDO) {
-  
-    try {
-        $pdoRequete = $maConnexionPDO->prepare("select * from Visite where username=:username");
 
-        $pdoRequete->bindParam(":username",$username,PDO::PARAM_STR);
+    public function VisiteAtIdLieux($maConnexionPDO,$idLieux) {
+    
+        try {
+            $pdoRequete = $maConnexionPDO->prepare("select * from Visite where idLieux=:idLieux");
+            $pdoRequete->bindParam(":idLieux",$idLieux,PDO::PARAM_INT);
 
-        $pdoRequete->execute();
-        $listeLieuxVisite = $pdoRequete->fetchAll();
-        
-        return $listeLieuxVisite;
+            $pdoRequete->execute();
+            $listeToutesVisite = $pdoRequete->fetchAll();
+            
+            return $listeToutesVisite;
 
-    } catch (Exception $e){
-        error_log($e->getMessage());
+        } catch (Exception $e){
+            error_log($e->getMessage());
+        }
     }
-}
 
 
-public function VisiteAtIdLieux($maConnexionPDO,$idLieux) {
-  
-    try {
-        $pdoRequete = $maConnexionPDO->prepare("select * from Visite where idLieux=:idLieux");
-        $pdoRequete->bindParam(":idLieux",$idLieux,PDO::PARAM_INT);
+    public function AllLieux($maConnexionPDO) {
+    
+        try {
+            $pdoRequete = $maConnexionPDO->prepare("select * from LieuxVisiter");
 
-        $pdoRequete->execute();
-        $listeToutesVisite = $pdoRequete->fetchAll();
-        
-        return $listeToutesVisite;
+            $pdoRequete->execute();
+            $listeLieux = $pdoRequete->fetchAll();
+            
+            return $listeLieux;
 
-    } catch (Exception $e){
-        error_log($e->getMessage());
+        } catch (Exception $e){
+            error_log($e->getMessage());
+        }
     }
-}
 
+    public function InfoLieux($maConnexionPDO,$idLieux) {
+    
+        try {
+            $pdoRequete = $maConnexionPDO->prepare("select * from LieuxVisiter where idLieux=:idLieux");
+            $pdoRequete->bindParam(":idLieux",$idLieux,PDO::PARAM_INT);
 
-public function AllLieux($maConnexionPDO) {
-  
-    try {
-        $pdoRequete = $maConnexionPDO->prepare("select * from LieuxVisiter");
+            $pdoRequete->execute();
+            $lieux = $pdoRequete->fetchAll();
+            
+            return $lieux;
 
-        $pdoRequete->execute();
-        $listeLieux = $pdoRequete->fetchAll();
-        
-        return $listeLieux;
-
-    } catch (Exception $e){
-        error_log($e->getMessage());
+        } catch (Exception $e){
+            error_log($e->getMessage());
+        }
     }
+
+    public function AllVisite($maConnexionPDO) {
+    
+        try {
+            $pdoRequete = $maConnexionPDO->prepare("select * from Visite");
+
+            $pdoRequete->execute();
+            $listeLieux = $pdoRequete->fetchAll();
+            
+            return $listeLieux;
+
+        } catch (Exception $e){
+            error_log($e->getMessage());
+        }
+    }
+
 }
-}
+
+
+
+
 
 ?>

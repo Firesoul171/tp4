@@ -19,17 +19,10 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
 {
     $dateArriver = +$arriver;
     $dateDepart = +$depart;
-    error_log("hello we have made it in the checkIf contact");
-    error_log($arriver);
-    error_log($depart);
-    error_log($email);
-    error_log($infected);
-    error_log($idLieux);
-    error_log("bye");
+
 
     if($dateArriver - $dateDepart <= -10000)
     {
-        error_log("hello we have made it pass the 1h check");
         $maConnexionPDO = connectionDB::ConnectionPDO();
         $fetch =new FetchData;
         $allVisite = $fetch->VisiteAtIdLieux($maConnexionPDO,$idLieux);
@@ -38,7 +31,7 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
         // pour chaque visite 
         foreach($allVisite as $visite)
         {
-            error_log("hello we have made it to check visits");
+            // format de donner AAAAMMJJHHmmSS    A = annee M = mois J = jour  m = minutes S= seconde
             // si la visite a duree au moin 1h soit 10000  avec ma methode de representation de temps le - est car je fait (l'arriver - le depart)
             if ( $visite[2] - $visite[3] <= -10000)
             {
@@ -51,17 +44,18 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
 
                 $tempPasserEnsemble = (max($visite[3],$dateDepart)-min($visite[2],$dateArriver))-(max($visite[2],$dateArriver)-min($visite[2],$dateArriver))-(max($visite[3],$dateDepart)-min($visite[3],$dateDepart));
                 
+
                 //Si le nouvel arrivant est l'infecter et rencontre un deja la 
                 if ($tempPasserEnsemble >= 10000 and $infected == 1)
                 {
-                    error_log("hello we have made it to there is an infected contact");
                     if (!in_array($Acontacter,$visite[1]))
                         array_push($Acontacter,$visite[1]);
+
+                        
                 }
                 // si le nouvel arrivant n'est pas infecter et rencontre un infecter
                 if ($tempPasserEnsemble >= 10000 and $visite[4] == 1)
                 {
-                    error_log("hello we have made it to there is an infected contact with someone who isnt");
                     if (!in_array($Acontacter,$email))
                         array_push($Acontacter,$email);
                 }
@@ -82,7 +76,6 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
             }
             if($sending)
             {
-                error_log("hello we have made it to email sending");
                 SendEmail($mail);
                 array_push($alreadySent,$mail);
             }
@@ -90,7 +83,6 @@ function CheckIfContact($idLieux, $arriver, $depart,$infected,$email)
             $sending = true;
         }
     }
-    error_log("hello we are done sending email");
 
     
 }

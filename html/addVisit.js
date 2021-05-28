@@ -77,7 +77,7 @@ function GetAnswer()
     //Fonction qui recupere les information fu formulaire et l'envoy ay script php sous forme JSON
     resultat = [];
     catchError = false;
-    
+    error = 0
     for(var i=0;i<texts.length;i++)
     {
        var nomText = texts[i].getAttribute("name");
@@ -85,7 +85,11 @@ function GetAnswer()
 
        //Sassure que les parametre ne sont pas vide et avec des valeurs possibles
         if(texts[i].value == "" && nomText !="reponceFormulaire") 
-            return 1;
+        {
+            error = 0;
+            catchError = true;
+        }
+            
         else
         {
             
@@ -97,7 +101,8 @@ function GetAnswer()
                 }
                 catch(err) 
                 {
-                    return 2;
+                    error = 1;
+                    catchError = true;
                 }
                     
             }
@@ -110,7 +115,8 @@ function GetAnswer()
                 }
                 catch(err) 
                 {
-                    return 3;
+                    error = 2;
+                    catchError = true;
                 }    
             }
 
@@ -122,7 +128,8 @@ function GetAnswer()
                 }
                 catch(err) 
                 {
-                    return 4;
+                    error = 3;
+                    catchError = true;
                 }
                     
             }
@@ -135,7 +142,8 @@ function GetAnswer()
                 }
                 catch(err) 
                 {
-                    return 4;
+                    error = 4;
+                    catchError = true;
                 }
                     
             }
@@ -178,6 +186,13 @@ function GetAnswer()
     Arriver =`${arriver[0][0]['anneeA']}${arriver[1][0]['moisA']}${arriver[2][0]['jourA']}${arriver[3][0]['heureA']}${arriver[4][0]['minuteA']}${arriver[5][0]['secondeA']}`;
     Depart =`${depart[0][0]['anneeD']}${depart[1][0]['moisD']}${depart[2][0]['jourD']}${depart[3][0]['heureD']}${depart[4][0]['minuteD']}${depart[5][0]['secondeD']}`;
 
+
+    if (parseInt(Arriver) > parseInt(Depart))
+    {
+        error = 5;
+        catchError = true;
+    }
+
     array = [{"arrive":Arriver}];
     resultat.push(array);
     array = [{"depart":Depart}];
@@ -191,13 +206,39 @@ function GetAnswer()
 
     resultat.push(array);
 
-    //Transforme le tout en json et envoy le tout
+    if (!catchError)
+    {
+        //Transforme le tout en json et envoy le tout
     let resultatJson = JSON.stringify(resultat);
 
     document.getElementById('reponceFormulaire').value = resultatJson;
     document.getElementById('formulaire').submit();
+    }
+    else
+    {
+        Alert(error);
+        error =0;
+        catchError = false;
+    }
+    
+
 }
 
+function Alert(error) 
+{
+    if(error == 0)
+    alert("Veuillez remplir tout les champs s'il vous plaît.");
+    if(error == 1)
+    alert("Entrer seulement des chiffres dans la case du numero civique");
+    if(error == 2)
+    alert("Entrer seulement le nom de la rue");
+    if(error == 3)
+    alert("Entrer seulement le nom de la ville");
+    if(error == 4)
+    alert("Entrer seulement le nom de la province");
+    if(error == 5)
+    alert("Veuillez mettre une date de depart plus tard que la date d'arrivé");
+}
 
 //Listner du vouton ajouter
 const boutonAjouter = document.getElementById("Ajouter");
